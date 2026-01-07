@@ -32,7 +32,7 @@ ifndef CFU_ROOT
   $(error CFU_ROOT must be set. $(HELP_MESSAGE))
 endif
 
-PROJ_DIR:=  $(CFU_ROOT)/proj/$(PROJ)
+PROJ_DIR ?=  $(CFU_ROOT)/proj/$(PROJ)
 CFU_V:=     $(if $(wildcard $(PROJ_DIR)/cfu.sv), $(PROJ_DIR)/cfu.sv, $(PROJ_DIR)/cfu.v)
 CFU_ARGS:=  --cpu-cfu $(CFU_V)
 TARGET_ARGS:= --target $(TARGET)
