@@ -209,9 +209,12 @@ renode: renode-scripts
 renode-headless: renode-scripts
 	pushd $(BUILD_DIR)/renode/ && $(RENODE_DIR)/renode --console --disable-xwt --hide-log -e "s @$(TARGET).resc ; uart_connect sysbus.uart" && popd
 
+
+TEST_FLAGS ?=
+
 .PHONY:	renode-test
 renode-test: renode-scripts
-	$(RENODE_DIR)/renode-test $(BUILD_DIR)/renode/$(TARGET).robot
+	$(RENODE_DIR)/renode-test $(BUILD_DIR)/renode/$(TARGET).robot $(TEST_FLAGS)
 
 .PHONY: renode-scripts
 renode-scripts: $(SOFTWARE_ELF)
