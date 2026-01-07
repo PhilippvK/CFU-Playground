@@ -42,5 +42,8 @@ DEFINES += INCLUDE_MODEL_PDTI8
 # Uncomment this line to include the ASCII animated donut demo.
 DEFINES += DONUT_DEMO
 
+CFU_ROOT ?= ${CURDIR}/../..
 
-include ../proj.mk
+
+
+include $(CFU_ROOT)/proj/proj.mk
