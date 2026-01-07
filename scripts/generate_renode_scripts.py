@@ -129,8 +129,13 @@ def main():
     litex_renode_repl_filepath = args.build_path + args.target + "_generated.repl"
     robot_filepath = args.build_path + args.target + ".robot"
 
-    proj_name = re.search("proj/(.*)/build", args.build_path)
-    proj_name = proj_name.group(1)
+    # proj_name = args.proj_name
+    # proj_name = re.search("proj/(.*)/build", args.build_path)
+    # proj_name = re.search("/(.*)/build", args.build_path)
+    from pathlib import Path
+
+    proj_name = Path(args.build_path).parent.parent.name
+    # proj_name = proj_name.group(1)
 
     proj_path = os.path.abspath(os.path.join(args.build_path, "../.."))
     predefined_resc_path = os.path.join(proj_path, "renode", args.target + ".resc")
