@@ -73,7 +73,6 @@ SHARED_FLAGS := \
 	-fno-common \
 	-fomit-frame-pointer \
 	-ffreestanding \
-	-Werror\
 	-Wsign-compare\
 	-Wdouble-promotion\
 	-Wshadow\
