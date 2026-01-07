@@ -52,8 +52,8 @@ ifdef SERV
 export UART_SPEED = 115200
 endif
 
-export PROJ       := $(lastword $(subst /, ,${CURDIR}))
-export CFU_ROOT   := $(realpath $(CURDIR)/../..)
+export PROJ       ?= $(lastword $(subst /, ,${CURDIR}))
+export CFU_ROOT   ?= $(realpath $(CURDIR)/../..)
 export PLATFORM   ?= common_soc
 export TARGET     ?= digilent_arty
 export TTY        ?= $(or $(wildcard /dev/ttyUSB?), $(wildcard /dev/ttyACM?))
