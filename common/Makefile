@@ -53,10 +53,14 @@ SRC_DIR    := src
 PACKAGE    := software
 
 DEFINE_FLAGS := $(DEFINES:%=-D %)
+INCLUDE_FLAGS := $(INCLUDES:%=-I %)
+
+OPTIMIZE ?= 3
 
 SHARED_FLAGS := \
 	$(CPUFLAGS) \
 	$(DEFINE_FLAGS) \
+	$(INCLUDE_FLAGS) \
 	-I$(SRC_DIR) \
 	-I$(SRC_DIR)/third_party/gemmlowp \
 	-I$(SRC_DIR)/third_party/flatbuffers/include \
@@ -88,8 +92,8 @@ SHARED_FLAGS := \
 	-DTF_LITE_USE_GLOBAL_MAX \
 	-DTF_LITE_DISABLE_X86_NEON\
 	-g \
-	-O3 \
-	-fno-builtin 
+	-O$(OPTIMIZE) \
+	-fno-builtin
 
 CFLAGS  := \
 	$(SHARED_FLAGS)\
