@@ -134,6 +134,27 @@ def copy_cpu_variant_if_needed(variant):
 def build_cpu_variant_if_needed(variant, workdir=None):
     if variant in vexriscv_core.CPU_VARIANTS or variant in serv_core.CPU_VARIANTS:
         print(f'Variant "{variant}" already known.')
+        cpu_filename = vexriscv_core.CPU_VARIANTS[variant] + ".v"
+        if workdir is not None:
+            fullpath = os.path.join(workdir, cpu_filename)
+        else:
+            vdir = get_data_mod("cpu", "vexriscv").data_location
+            fullpath = os.path.join(vdir, cpu_filename)
+
+        cfu_root = os.environ.get("CFU_ROOT")
+        custom_dir = os.path.join(cfu_root, "soc", "vexriscv")
+        custom_cpu = os.path.join(custom_dir, cpu_filename)
+
+        # always copy to ensure the most up-to-date version is used
+        if os.path.exists(custom_cpu):
+            print(f'Found and copied "{custom_cpu}".')
+            copyfile(custom_cpu, fullpath)
+            if workdir is not None:
+                return fullpath
+        else:
+            if not os.path.exists(fullpath):
+                print(f'Couldn\'t find "{fullpath}".')
+                print(f'Couldn\'t find "{custom_cpu}".')
         return
 
     ########### ADD code to existing add_soc_components() #######
