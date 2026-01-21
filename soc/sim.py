@@ -66,6 +66,7 @@ def main():
     parser.add_argument("--cfu-mport", action="store_true", help="Add ports between arena and CFU " \
                         "(implies --separate-arena)")
     parser.add_argument("--bin", help="RISCV binary to run. Required if --run is set.")
+    parser.add_argument("--workdir", default=None, help="Working directory")
     parser.set_defaults(
             csr_csv='csr.csv',
             uart_name='serial',
@@ -84,8 +85,8 @@ def main():
     if args.cfu_mport:
         args.separate_arena = True
 
-    build_cpu_variant_if_needed(args.cpu_variant)
-    copy_cpu_variant_if_needed(args.cpu_variant)
+    variant_file = build_cpu_variant_if_needed(args.cpu_variant, workdir=args.workdir)
+    # variant_file = copy_cpu_variant_if_needed(args.cpu_variant)
     soc_kwargs = soc_core_argdict(args)
     soc_kwargs["l2_size"] = 8 * 1024
     soc_kwargs["uart_name"] = "sim"
@@ -94,6 +95,8 @@ def main():
         integrated_main_ram_init=bin, 
         sim_debug = True,
         **soc_kwargs)
+    if variant_file:
+        soc.cpu.use_external_variant(variant_file)
 
     if args.separate_arena:
         soc.add_config('SOC_SEPARATE_ARENA')
