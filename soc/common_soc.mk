@@ -66,8 +66,10 @@ LITEX_ARGS += --with-spi-sdcard
 endif
 endif
 
+JOBS ?= 8
+
 PYRUN:=     $(CFU_ROOT)/scripts/pyrun
-TARGET_RUN:=  MAKEFLAGS=-j8 $(PYRUN) ./common_soc.py $(LITEX_ARGS)
+TARGET_RUN:=  MAKEFLAGS=-j$(JOBS) $(PYRUN) ./common_soc.py $(LITEX_ARGS)
 
 BIOS_BIN := $(OUT_DIR)/software/bios/bios.bin
 BITSTREAM:= $(OUT_DIR)/gateware/$(TARGET).bit
