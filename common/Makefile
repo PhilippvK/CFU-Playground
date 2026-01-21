@@ -111,7 +111,9 @@ CXXFLAGS   := \
 	-Wall \
 	-Wextra \
 	-Wstrict-aliasing \
-	-Wno-unused-parameter
+	-Wno-unused-parameter \
+	-I$(LITEX_DIR)/soc/software/libbase \
+	-I$(LITEX_DIR)/soc/software/include
 
 LFLAGS     := \
 	$(CXXFLAGS) \
