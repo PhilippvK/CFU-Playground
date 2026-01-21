@@ -190,16 +190,24 @@ def build_cpu_variant_if_needed(variant, workdir=None):
         gen_args.append(f"--{param_name}={val}")
         cpu_filename_base = cpu_filename_base + "_" + param_name + "-" + val
 
-    gen_args.append(f"--outputFile={cpu_filename_base}")
-    cpu_filename = cpu_filename_base + ".v"
-
-    cfu_root = os.environ.get('CFU_ROOT')
+    cfu_root = os.environ.get("CFU_ROOT")
+    assert cfu_root is not None
     custom_dir = os.path.join(cfu_root, "soc", "vexriscv")
-    custom_cpu = os.path.join(custom_dir, cpu_filename)
+    gen_args.append(f"--outputFile={cpu_filename_base}")
+    if workdir is not None:
+        gen_args.append(f"--targetDirectory={workdir}")
+        cpu_filename = cpu_filename_base + ".v"
+        custom_cpu = os.path.join(workdir, cpu_filename)
+        fullpath = os.path.join(workdir, cpu_filename)
+    else:
+        cpu_filename = cpu_filename_base + ".v"
+
+        custom_cpu = os.path.join(custom_dir, cpu_filename)
+        vdir = get_data_mod("cpu", "vexriscv").data_location
+        # vdir = "/tmp/vdir"
+        print("VDIR: " + vdir)
+        fullpath = os.path.join(vdir, cpu_filename)
     print("CUSTOM CPU: " + custom_cpu)
-    vdir = get_data_mod("cpu", "vexriscv").data_location
-    print("VDIR: " + vdir)
-    fullpath = os.path.join(vdir, cpu_filename)
     print("FULL PATH: " + fullpath)
 
     if os.path.exists(custom_cpu):
@@ -211,7 +219,16 @@ def build_cpu_variant_if_needed(variant, workdir=None):
         #
         print(f'Generating variant "{variant}" in file "{cpu_filename}".')
         if not os.path.exists(custom_cpu):
-            cmd = 'cd {path} && sbt compile "runMain vexriscv.GenCoreDefault {args}"'.format(path=custom_dir, args=" ".join(gen_args))
+            prefix = ""
+            extra = ""
+            if workdir is not None:
+                extra = f"-Dsbt.global.base={workdir}/.sbtboot -Dsbt.boot.directory={workdir}/sbt-boot -Dsbt.ivy.home={workdir}/ivy-home -Dcoursier.cache={workdir}/coursier"
+                prefix = f'export SBT_OPTS="{extra}" &&'
+            cmd = '{prefix} cd {path} && sbt {extra}  compile "runMain vexriscv.GenCoreDefault {args}"'.format(
+                path=custom_dir, prefix=prefix, extra=extra, args=" ".join(gen_args)
+            )
+            # print("cmd", cmd)
+            # input("!")
             if os.system(cmd) != 0:
                 raise OSError("Failed to run sbt")
 
@@ -244,4 +261,9 @@ def build_cpu_variant_if_needed(variant, workdir=None):
     #
     # Copy file to where it goes
     #
-    copyfile(custom_cpu, fullpath) 
+
+    if custom_cpu != fullpath:
+        # print(f"copyfile({custom_cpu}, {fullpath})")
+        # input("!")
+        copyfile(custom_cpu, fullpath)
+    return fullpath
