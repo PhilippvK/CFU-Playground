@@ -229,7 +229,7 @@ object GenCoreDefault{
             case "secure" => CsrPluginConfig.secure(argConfig.machineTrapVector)
           }
         ),
-        new YamlPlugin(argConfig.outputFile.concat(".yaml"))
+        new YamlPlugin(argConfig.targetDirectory.concat("/").concat(argConfig.outputFile.concat(".yaml")))
       )
 
       if(argConfig.mulDiv) {
