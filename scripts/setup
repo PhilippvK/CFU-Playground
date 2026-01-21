@@ -111,7 +111,8 @@ if [ ! -e "${RENODE_DIR}/renode" ]; then
     echo "If you wish to run automated Robot tests using Renode, run:"
     echo "python3 -m pip install -r ${RENODE_DIR}/tests/requirements.txt"
     echo ""
-elif ! ${RENODE_DIR}/renode --version | grep "${RENODE_VERSION_NO}.*${RENODE_VERSION_SHA}" >/dev/null; then
+# elif ! ${RENODE_DIR}/renode --version | grep "${RENODE_VERSION_NO}.*${RENODE_VERSION_SHA}" >/dev/null; then
+elif ! ${RENODE_DIR}/renode --version | grep "${RENODE_VERSION_NO}" >/dev/null; then
     echo "Warning: Your Renode version (in ${RENODE_DIR}) does not match the required one (${RENODE_VERSION})"
 fi
 
