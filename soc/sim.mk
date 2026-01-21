@@ -56,7 +56,10 @@ litex-software: $(BIOS_BIN)
 
 run: $(BITSTREAM)
 	$(SIM_RUN) --run
-	
+
+run2: $(BITSTREAM)
+	$(SIM_RUN) --build
+
 clean:
 	@echo Removing $(OUT_DIR)
 	rm -rf $(OUT_DIR)
