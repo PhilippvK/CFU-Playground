@@ -48,9 +48,10 @@ case class ArgConfig(
   externalInterruptArray : Boolean = true,
   resetVector : BigInt = null,
   machineTrapVector : BigInt = null,
-  memoryAndWritebackStage : Boolean = true, 
+  memoryAndWritebackStage : Boolean = true,
   prediction : BranchPrediction = STATIC,
   outputFile : String = "VexRiscv",
+  targetDirectory : String = ".",
   csrPluginConfig : String = "small",
   dBusCachedRelaxedMemoryTranslationRegister : Boolean = false,
   dBusCachedEarlyWaysHits : Boolean = true
@@ -100,6 +101,7 @@ object GenCoreDefault{
       opt[Boolean]("memoryAndWritebackStage") action { (v, c) => c.copy(memoryAndWritebackStage = v) } text("Default true; if false, removes the memory and writeback stages.")
       opt[String]("prediction")    action { (v, c) => c.copy(prediction = predictionMap(v))   } text("switch between regular CSR and array like one")
       opt[String]("outputFile")    action { (v, c) => c.copy(outputFile = v) } text("output file name")
+      opt[String]("targetDirectory")    action { (v, c) => c.copy(targetDirectory = v) } text("output destination")
       opt[String]("csrPluginConfig")  action { (v, c) => c.copy(csrPluginConfig = v) } text("switch between 'small', 'mcycle', 'all', 'linux' and 'linux-minimal' version of control and status registers configuration")
     }
     val argConfig = parser.parse(args, ArgConfig()).get
@@ -109,7 +111,7 @@ object GenCoreDefault{
       throw new RuntimeException("CFU plugin requires a memory and writeback stage.")
     }
 
-    SpinalConfig.copy(netlistFileName = argConfig.outputFile + ".v").generateVerilog {
+    SpinalConfig.copy(netlistFileName = argConfig.outputFile + ".v", targetDirectory = argConfig.targetDirectory).generateVerilog {
       // Generate CPU plugin list
       val plugins = ArrayBuffer[Plugin[VexRiscv]]()
 
