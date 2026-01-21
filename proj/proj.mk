@@ -73,7 +73,7 @@ endif
 
 SOC_DIR          := $(CFU_ROOT)/soc
 SOC_BUILD_NAME   := $(TARGET).$(PROJ)
-SOC_BUILD_DIR    := $(SOC_DIR)/build/$(SOC_BUILD_NAME)
+SOC_BUILD_DIR    ?= $(SOC_DIR)/build/$(SOC_BUILD_NAME)
 SOC_SOFTWARE_DIR := $(SOC_BUILD_DIR)/software
 export SOC_SOFTWARE_DIR
 SOC_GATEWARE_DIR := $(SOC_BUILD_DIR)/gateware
@@ -131,7 +131,7 @@ VIL_DIR            := $(RENODE_DIR)/verilator-integration-library
 LITEX_RENODE_DIR   := $(CFU_ROOT)/third_party/python/litex-renode
 SRC_DIR            := $(abspath $(PROJ_DIR)/src)
 
-TFLM_SRC_DIR       := $(CFU_ROOT)/third_party/tflite-micro
+TFLM_SRC_DIR       ?= $(CFU_ROOT)/third_party/tflite-micro
 TFLM_MAKE_DIR      := $(TFLM_SRC_DIR)/tensorflow/lite/micro/tools/make
 TFLM_TP_DIR        := $(TFLM_SRC_DIR)/third_party
 
