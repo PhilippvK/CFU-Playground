@@ -87,6 +87,8 @@ ifdef SKIP_TFLM
 export DEFINES    += SKIP_TFLM
 endif
 
+export INCLUDES    +=
+
 SHELL           := /bin/bash
 CRC             := 
 #CRC             := --no-crc
