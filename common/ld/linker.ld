@@ -55,9 +55,20 @@ SECTIONS
 		. = ALIGN(8);
 		_ebss = .;
 		_end = .;
+		__bss_end = .;
 	} > main_ram
 	/*} > sram */
 }
 
 PROVIDE(_fstack = ORIGIN(main_ram) + LENGTH(main_ram) - 4);
 /* PROVIDE(_fstack = ORIGIN(sram) + LENGTH(sram) - 4); */
+PROVIDE( __end = __bss_end );
+PROVIDE( _end = __bss_end );
+PROVIDE( end = __bss_end );
+PROVIDE( __bss_start = ADDR(.bss));
+PROVIDE( __bss_size = __bss_end - __bss_start );
+
+/* Make the rest of memory available for heap storage */
+PROVIDE (__heap_start = __end);
+PROVIDE (__heap_end = _fstack - (DEFINED(__stack_size) ? __stack_size : 0x800));
+PROVIDE (__heap_size = __heap_end - __heap_start);
