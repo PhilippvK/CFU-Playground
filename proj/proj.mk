@@ -224,9 +224,9 @@ ifneq '$(SW_ONLY)' '1'
 	pushd $(BUILD_DIR)/renode && cmake -DCMAKE_BUILD_TYPE=Release -DENABLE_TRACE=$(ENABLE_TRACE_ARG) -DTRACE_DEPTH_VAL=$(VERILATOR_TRACE_DEPTH) \
 		-DINCLUDE_DIR="$(PROJ_DIR)" -DVTOP="$(CFU_VERILOG)" -DVIL_DIR="$(VIL_DIR)" $${VERILATOR_PATH:+"-DUSER_VERILATOR_DIR=$$VERILATOR_PATH"} \
 		-DTRACE_FILEPATH="$(VERILATOR_TRACE_PATH)" "$(RVI_DIR)" && make libVtop && popd
-	$(CFU_ROOT)/scripts/generate_renode_scripts.py $(SOC_BUILD_DIR)/csr.json $(TARGET) $(BUILD_DIR)/renode/ --repl $(TARGET_REPL)
+	$(CFU_ROOT)/scripts/generate_renode_scripts.py $(SOC_BUILD_DIR)/csr.json $(TARGET) $(BUILD_DIR)/renode/ --repl $(TARGET_REPL) $(GEN_RENODE_EXTRA_ARGS)
 else
-	$(CFU_ROOT)/scripts/generate_renode_scripts.py $(SOC_BUILD_DIR)/csr.json $(TARGET) $(BUILD_DIR)/renode/ --repl $(TARGET_REPL) --sw-only
+	$(CFU_ROOT)/scripts/generate_renode_scripts.py $(SOC_BUILD_DIR)/csr.json $(TARGET) $(BUILD_DIR)/renode/ --repl $(TARGET_REPL) --sw-only $(GEN_RENODE_EXTRA_ARGS)
 endif
 	@echo Generating Renode scripts finished
 
