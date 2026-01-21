@@ -20,7 +20,7 @@
 from litex import get_data_mod
 from litex.soc.cores.cpu.vexriscv import core as vexriscv_core
 from litex.soc.cores.cpu.serv import core as serv_core
-from shutil import copyfile
+from shutil import copyfile, copytree, rmtree
 
 import os
 
@@ -243,7 +243,20 @@ def build_cpu_variant_if_needed(variant, workdir=None):
             prefix = ""
             extra = ""
             if workdir is not None:
-                extra = f"-Dsbt.global.base={workdir}/.sbtboot -Dsbt.boot.directory={workdir}/sbt-boot -Dsbt.ivy.home={workdir}/ivy-home -Dcoursier.cache={workdir}/coursier"
+                # extra = f"-Dsbt.global.base={workdir}/.sbtboot -Dsbt.boot.directory={workdir}/sbt-boot -Dsbt.ivy.home={workdir}/ivy-home -Dcoursier.cache={workdir}/coursier -Dsbt.server.autostart=false -Dsbt.server=false -Dsbt.server.forcestart=true -no-server -DTARGET_OUT={key}"
+                extra = f"-Dsbt.global.base={workdir}/.sbtboot -Dsbt.boot.directory={workdir}/sbt-boot -Dsbt.ivy.home={workdir}/ivy-home -Dcoursier.cache={workdir}/coursier -Dsbt.server.autostart=false -Dsbt.server=false -Dsbt.server.forcestart=true -no-server"
+                # cfu_root = os.environ.get("CFU_ROOT")
+                # assert cfu_root is not None
+                vex_src = custom_dir
+                vex_dest = os.path.join(workdir, "vex")
+                vex2_src = os.path.join(
+                    cfu_root, "third_party/python/pythondata_cpu_vexriscv/pythondata_cpu_vexriscv/verilog/ext/VexRiscv"
+                )
+                vex2_dest = os.path.join(workdir, "vex2")
+                copytree(vex_src, vex_dest)
+                copytree(vex2_src, vex2_dest)
+                custom_dir = vex_dest
+                os.environ["VEX_ROOT"] = vex2_dest
                 prefix = f'export SBT_OPTS="{extra}" &&'
             cmd = '{prefix} cd {path} && sbt {extra}  compile "runMain vexriscv.GenCoreDefault {args}"'.format(
                 path=custom_dir, prefix=prefix, extra=extra, args=" ".join(gen_args)
@@ -252,6 +265,8 @@ def build_cpu_variant_if_needed(variant, workdir=None):
             # input("!")
             if os.system(cmd) != 0:
                 raise OSError("Failed to run sbt")
+            rmtree(vex_dest)
+            rmtree(vex2_dest)
 
     #
     # do some patching
