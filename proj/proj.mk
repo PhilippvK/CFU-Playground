@@ -60,6 +60,7 @@ export TTY        ?= $(or $(wildcard /dev/ttyUSB?), $(wildcard /dev/ttyACM?))
 
 RUN_MENU_ITEMS    ?=1 1 1
 TEST_MENU_ITEMS   ?=5
+GEN_RENODE_EXTRA_ARGS ?=
 
 PLATFORMS=common_soc sim hps
 ifneq '$(PLATFORM)' '$(findstring $(PLATFORM),$(PLATFORMS))'
