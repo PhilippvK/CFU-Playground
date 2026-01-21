@@ -60,6 +60,7 @@ def main():
     parser.add_argument("--sim-trace",  action="store_true", help="Whether to enable tracing of simulation")
     parser.add_argument("--sim-trace-start", default=0, help="Start tracing at this time in picoseconds")
     parser.add_argument("--sim-trace-end", default=-1, help="Stop tracing at this time in picoseconds")
+    parser.add_argument("--build", action="store_true", help="Whether to build the simulation")
     parser.add_argument("--run", action="store_true", help="Whether to run the simulation")
     parser.add_argument("--separate-arena", action="store_true", help="Add arena mem region at 0x60000000")
     parser.add_argument("--cfu-mport", action="store_true", help="Add ports between arena and CFU " \
@@ -73,7 +74,7 @@ def main():
             with_etherbone=False)
     args = parser.parse_args()
     bin = None
-    if args.run:
+    if args.run or args.build:
         if args.bin:
             bin = get_mem_data(args.bin, "little")
         else:
@@ -136,7 +137,8 @@ def main():
 
     # configure_sim_builder(builder, args.sim_rom_bin)
     builder.build(
-        build=args.run,
+        # build=args.run,
+        build=args.build or args.run,
         run=args.run,
         sim_config=sim_config,
         interactive=False,
