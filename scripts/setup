@@ -127,13 +127,13 @@ if [ ! -e "${VIL_DIR}" ]; then
     mkdir -p ${VIL_DIR}/src/buses
     wget -O ${VIL_DIR}/renode_imports.h https://raw.githubusercontent.com/renode/renode-infrastructure/${RENODE_INFRA_VERSION_SHA}/src/Emulator/Cores/renode/include/renode_imports.h
     wget -O ${VIL_DIR}/renode_imports_generated.h https://raw.githubusercontent.com/renode/renode-infrastructure/${RENODE_INFRA_VERSION_SHA}/src/Emulator/Cores/renode/include/renode_imports_generated.h
-    wget -O ${VIL_DIR}/src/renode_cfu.cpp https://raw.githubusercontent.com/renode/renode/${RENODE_VERSION_SHA}/src/Plugins/VerilatorPlugin/VerilatorIntegrationLibrary/src/renode_cfu.cpp
-    wget -O ${VIL_DIR}/src/renode_cfu.h https://raw.githubusercontent.com/renode/renode/${RENODE_VERSION_SHA}/src/Plugins/VerilatorPlugin/VerilatorIntegrationLibrary/src/renode_cfu.h
-    wget -O ${VIL_DIR}/src/renode.h https://raw.githubusercontent.com/renode/renode/${RENODE_VERSION_SHA}/src/Plugins/VerilatorPlugin/VerilatorIntegrationLibrary/src/renode.h
-    wget -O ${VIL_DIR}/src/renode_action_enumerators.txt https://raw.githubusercontent.com/renode/renode/${RENODE_VERSION_SHA}/src/Plugins/VerilatorPlugin/VerilatorIntegrationLibrary/src/renode_action_enumerators.txt
-    wget -O ${VIL_DIR}/src/buses/cfu.cpp https://raw.githubusercontent.com/renode/renode/${RENODE_VERSION_SHA}/src/Plugins/VerilatorPlugin/VerilatorIntegrationLibrary/src/buses/cfu.cpp
-    wget -O ${VIL_DIR}/src/buses/cfu.h https://raw.githubusercontent.com/renode/renode/${RENODE_VERSION_SHA}/src/Plugins/VerilatorPlugin/VerilatorIntegrationLibrary/src/buses/cfu.h
-    wget -O ${VIL_DIR}/src/buses/bus.h https://raw.githubusercontent.com/renode/renode/${RENODE_VERSION_SHA}/src/Plugins/VerilatorPlugin/VerilatorIntegrationLibrary/src/buses/bus.h
+    wget -O ${VIL_DIR}/src/renode_cfu.cpp https://raw.githubusercontent.com/renode/renode/v${RENODE_VERSION_NO}/src/Plugins/VerilatorPlugin/VerilatorIntegrationLibrary/src/renode_cfu.cpp
+    wget -O ${VIL_DIR}/src/renode_cfu.h https://raw.githubusercontent.com/renode/renode/v${RENODE_VERSION_NO}/src/Plugins/VerilatorPlugin/VerilatorIntegrationLibrary/src/renode_cfu.h
+    wget -O ${VIL_DIR}/src/renode.h https://raw.githubusercontent.com/renode/renode/v${RENODE_VERSION_NO}/src/Plugins/VerilatorPlugin/VerilatorIntegrationLibrary/src/renode.h
+    wget -O ${VIL_DIR}/src/renode_action_enumerators.txt https://raw.githubusercontent.com/renode/renode/v${RENODE_VERSION_NO}/src/Plugins/VerilatorPlugin/VerilatorIntegrationLibrary/src/renode_action_enumerators.txt
+    wget -O ${VIL_DIR}/src/buses/cfu.cpp https://raw.githubusercontent.com/renode/renode/v${RENODE_VERSION_NO}/src/Plugins/VerilatorPlugin/VerilatorIntegrationLibrary/src/buses/cfu.cpp
+    wget -O ${VIL_DIR}/src/buses/cfu.h https://raw.githubusercontent.com/renode/renode/v${RENODE_VERSION_NO}/src/Plugins/VerilatorPlugin/VerilatorIntegrationLibrary/src/buses/cfu.h
+    wget -O ${VIL_DIR}/src/buses/bus.h https://raw.githubusercontent.com/renode/renode/v${RENODE_VERSION_NO}/src/Plugins/VerilatorPlugin/VerilatorIntegrationLibrary/src/buses/bus.h
     patch -p1 ${VIL_DIR}/src/renode.h ${CFU_ROOT}/common/renode-verilator-integration/renode_h.patch
 fi
 
@@ -148,7 +148,7 @@ else
 fi
 
 
-# Yosys -- get local copy if there isn't a sufficiently recent system verion 
+# Yosys -- get local copy if there isn't a sufficiently recent system verion
 # DISABLED for now -- caused too many problems
 # Use Conda if you need to get Yosys.
 if false; then
