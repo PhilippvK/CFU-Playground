@@ -39,7 +39,7 @@ TARGET_ARGS:= --target $(TARGET)
 SOFTWARE_ARGS:= --software-load --software-path $(PROJ_DIR)/build/software.bin
 
 SOC_NAME:=  $(TARGET).$(PROJ)
-OUT_DIR ?=   build/$(SOC_NAME)
+OUT_DIR ?=   $(SOC_BUILD_BASE)/$(SOC_NAME)
 UART_ARGS=  --uart-baudrate $(UART_SPEED)
 LITEX_ARGS= --output-dir $(OUT_DIR) \
         --csr-json $(OUT_DIR)/csr.json \
@@ -54,7 +54,7 @@ endif
 
 ifdef USE_SYMBIFLOW
 LITEX_ARGS += --toolchain symbiflow
-else 
+else
 ifdef USE_VIVADO
 LITEX_ARGS += --toolchain vivado
 endif
