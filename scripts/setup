@@ -6,13 +6,16 @@ if [ -d third_party/python/nmigen ] ; then
     rm -rf third_party/python/nmigen
 fi
 
-# Bring in submodules
-git submodule update --init
+if [[ "$SKIP_SUBMODULES" != "1" ]]
+then
+  # Bring in submodules
+  git submodule update --init
 
-# only these submodules need a recursive update
-git submodule update --init --recursive third_party/python/pythondata-software-picolibc
-git submodule update --init --recursive third_party/python/pythondata_cpu_vexriscv
-git submodule update --init --recursive third_party/python/pythondata_cpu_serv
+  # only these submodules need a recursive update
+  git submodule update --init --recursive third_party/python/pythondata-software-picolibc
+  git submodule update --init --recursive third_party/python/pythondata_cpu_vexriscv
+  git submodule update --init --recursive third_party/python/pythondata_cpu_serv
+fi
 
 CFU_ROOT="$(dirname $(dirname $(realpath ${BASH_SOURCE[0]})))"
 
