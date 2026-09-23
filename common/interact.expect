@@ -14,6 +14,17 @@
 set timeout 500
 set simpid 0
 
+if {![info exists env(SOC_DIR)]} {
+  send_user "ERROR: SOC_DIR is not set\n"
+  exit 1
+}
+
+set litex_term "$env(SOC_DIR)/bin/litex_term"
+
+if {![file executable $litex_term]} {
+  send_user "ERROR: litex_term not found or not executable: $litex_term\n"
+  exit 1
+}
 
 
 if { [lindex $argv 0] == "s" } {
@@ -26,7 +37,7 @@ if { [lindex $argv 0] == "s" } {
   send_user "Sim PID $simpid\n"
   send "\n"
 } else {
-  spawn ../../soc/bin/litex_term --speed [lindex $argv 2] --kernel [lindex $argv 0] [lindex $argv 1]
+  spawn $litex_term --speed [lindex $argv 2] --kernel [lindex $argv 0] [lindex $argv 1]
   set choices [lrange $argv 3 end]
 }
 

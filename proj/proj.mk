@@ -71,7 +71,7 @@ ifneq 'common_soc' '$(PLATFORM)'
 TARGET := $(PLATFORM)
 endif
 
-SOC_DIR          := $(CFU_ROOT)/soc
+SOC_DIR          ?= $(CFU_ROOT)/soc
 SOC_BUILD_NAME   := $(TARGET).$(PROJ)
 SOC_BUILD_DIR    ?= $(SOC_DIR)/build/$(SOC_BUILD_NAME)
 SOC_SOFTWARE_DIR ?= $(SOC_BUILD_DIR)/software
