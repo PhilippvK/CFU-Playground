@@ -40,9 +40,10 @@ SOFTWARE_ARGS:= --software-load --software-path $(PROJ_DIR)/build/software.bin
 
 SOC_NAME:=  $(TARGET).$(PROJ)
 OUT_DIR ?=   build/$(SOC_NAME)
+CSR_JSON ?=   $(OUT_DIR)/csr.json
 UART_ARGS=  --uart-baudrate $(UART_SPEED)
 LITEX_ARGS= --output-dir $(OUT_DIR) \
-        --csr-json $(OUT_DIR)/csr.json \
+        --csr-json $(CSR_JSON) \
         $(CFU_ARGS) $(UART_ARGS) $(TARGET_ARGS) $(EXTRA_LITEX_ARGS)
 
 ifdef USE_OXIDE
