@@ -69,8 +69,8 @@ SHARED_FLAGS := \
 	-I$(SOC_SOFTWARE_DIR)/include \
 	-I$(SOC_SOFTWARE_DIR)/libc \
 	-I$(LIBC_DIR)/include \
-    -I$(LITEX_HW_DIR) \
-    -I$(VEX_SRC_DIR) \
+	-I$(LITEX_HW_DIR) \
+	-I$(VEX_SRC_DIR) \
 	-I$(SERV_SRC_DIR) \
 	-ffunction-sections \
 	-fdata-sections \
@@ -82,6 +82,8 @@ SHARED_FLAGS := \
 	-Wshadow\
 	-Wunused-variable\
 	-Wno-missing-field-initializers\
+	-Wno-implicit-function-declaration\
+	-Wno-int-conversion\
 	-Wunused-function\
 	-Wno-maybe-uninitialized\
 	-Wswitch\
