@@ -312,12 +312,12 @@ endif
 ifneq ($(wildcard $(COMMON_DIR)/_$(PLATFORM)/$(TARGET)/*),)
 	$(COPY) $(COMMON_DIR)/_$(PLATFORM)/$(TARGET)/* $(BUILD_DIR)
 endif
-	
+
 .PHONY: litex-software
 litex-software: $(CFU_VERILOG)
 	$(SOC_MK) litex-software
 
-TTY_TARGETS := load unit run
+TTY_TARGETS := load load2 unit run
 .PHONY: $(TTY_TARGETS) prog bitstream run-renode unit-renode
 
 ifneq 'sim' '$(PLATFORM)'
@@ -354,6 +354,8 @@ load: $(SOFTWARE_BIN)
 	$(CFU_ROOT)/scripts/hps_prog $(SOFTWARE_BIN) program
 	$(LXTERM) --speed 115200 $(TTY)
 
+load2: load
+
 connect:
 	@echo Connecting to HPS Board
 	$(LXTERM) --speed 115200 $(TTY)
@@ -365,6 +367,8 @@ load: $(SOFTWARE_BIN)
 	$(SOC_MK) load_hook
 	@while [ ! -e $(TTY) ]; do echo "Waiting for UART"; sleep 1; done
 	$(LXTERM) --speed $(UART_SPEED) $(CRC) --kernel $(SOFTWARE_BIN) $(TTY)
+
+load2: load
 
 connect:
 	@echo Connecting to board
