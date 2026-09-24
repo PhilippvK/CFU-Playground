@@ -77,7 +77,7 @@ SOC_BUILD_DIR    ?= $(SOC_DIR)/build/$(SOC_BUILD_NAME)
 CSR_JSON         ?= $(SOC_BUILD_DIR)/csr.json
 SOC_SOFTWARE_DIR ?= $(SOC_BUILD_DIR)/software
 export SOC_SOFTWARE_DIR
-SOC_GATEWARE_DIR := $(SOC_BUILD_DIR)/gateware
+SOC_GATEWARE_DIR ?= $(SOC_BUILD_DIR)/gateware
 
 # Make software build dependent on platform
 export DEFINES    += PLATFORM_$(PLATFORM)
