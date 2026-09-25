@@ -83,7 +83,15 @@ class GeneralSoCWorkflow():
         build_cpu_variant_if_needed(self.args.cpu_variant)
 
         base_soc_kwargs.update(kwargs)
-        return self.soc_constructor(**base_soc_kwargs)
+        # return self.soc_constructor(**base_soc_kwargs)
+        soc = self.soc_constructor(**base_soc_kwargs)
+        if getattr(soc, "integrated_main_ram_size", 0):
+            if hasattr(soc, "main_ram") and hasattr(soc.main_ram, "mem"):
+                if not hasattr(soc.main_ram.mem, "attr"):
+                    soc.main_ram.mem.attr = set()
+
+                soc.main_ram.mem.attr.add(("ram_decomp", "power"))
+        return soc
 
     def build_soc(self, soc: litex_soc.LiteXSoC, **kwargs) -> builder.Builder:
         """Creates a LiteX Builder and builds the Soc if self.args.build.
