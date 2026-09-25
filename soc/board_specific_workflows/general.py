@@ -85,7 +85,7 @@ class GeneralSoCWorkflow():
         base_soc_kwargs.update(kwargs)
         # return self.soc_constructor(**base_soc_kwargs)
         soc = self.soc_constructor(**base_soc_kwargs)
-        if getattr(soc, "integrated_main_ram_size", 0):
+        if getattr(soc, "integrated_main_ram_size", 0) >= 256 * 1024 and soc.platform.device.startswith("xc7"):
             if hasattr(soc, "main_ram") and hasattr(soc.main_ram, "mem"):
                 if not hasattr(soc.main_ram.mem, "attr"):
                     soc.main_ram.mem.attr = set()
