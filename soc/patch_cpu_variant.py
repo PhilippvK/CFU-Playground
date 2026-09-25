@@ -242,6 +242,9 @@ def build_cpu_variant_if_needed(variant, workdir=None):
         if not os.path.exists(custom_cpu):
             prefix = ""
             extra = ""
+            vex_dest = None
+            vex2_dest = None
+
             if workdir is not None:
                 # extra = f"-Dsbt.global.base={workdir}/.sbtboot -Dsbt.boot.directory={workdir}/sbt-boot -Dsbt.ivy.home={workdir}/ivy-home -Dcoursier.cache={workdir}/coursier -Dsbt.server.autostart=false -Dsbt.server=false -Dsbt.server.forcestart=true -no-server -DTARGET_OUT={key}"
                 extra = f"-Dsbt.global.base={workdir}/.sbtboot -Dsbt.boot.directory={workdir}/sbt-boot -Dsbt.ivy.home={workdir}/ivy-home -Dcoursier.cache={workdir}/coursier -Dsbt.server.autostart=false -Dsbt.server=false -Dsbt.server.forcestart=true -no-server"
@@ -265,8 +268,10 @@ def build_cpu_variant_if_needed(variant, workdir=None):
             # input("!")
             if os.system(cmd) != 0:
                 raise OSError("Failed to run sbt")
-            rmtree(vex_dest)
-            rmtree(vex2_dest)
+            if vex_dest is not None:
+                rmtree(vex_dest)
+            if vex2_dest is not None:
+                rmtree(vex2_dest)
 
     #
     # do some patching
