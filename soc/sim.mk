@@ -37,9 +37,10 @@ CFU_V    ?=     $(if $(wildcard $(PROJ_DIR)/cfu.sv), $(PROJ_DIR)/cfu.sv, $(PROJ_
 CFU_ARGS :=  --cpu-cfu $(CFU_V)
 
 SOC_NAME:=  sim.$(PROJ)
-OUT_DIR:=   build/$(SOC_NAME)
+OUT_DIR ?=   build/$(SOC_NAME)
+CSR_JSON ?= $(OUT_DIR)/csr.json
 LITEX_ARGS= --output-dir $(OUT_DIR) \
-	--csr-json $(OUT_DIR)/csr.json \
+	--csr-json $(CSR_JSON) \
 	$(CFU_ARGS) \
 	--bin $(SOFTWARE_BIN) \
 	--sim-trace
