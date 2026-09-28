@@ -39,12 +39,17 @@ TARGET_ARGS:= --target $(TARGET)
 SOFTWARE_ARGS:= --software-load --software-path $(PROJ_DIR)/build/software.bin
 
 SOC_NAME:=  $(TARGET).$(PROJ)
+
 OUT_DIR ?=   build/$(SOC_NAME)
 CSR_JSON ?=   $(OUT_DIR)/csr.json
+
 UART_ARGS=  --uart-baudrate $(UART_SPEED)
 LITEX_ARGS= --output-dir $(OUT_DIR) \
         --csr-json $(CSR_JSON) \
         $(CFU_ARGS) $(UART_ARGS) $(TARGET_ARGS) $(EXTRA_LITEX_ARGS)
+
+SOC_GATEWARE_DIR ?= $(OUT_DIR)/gateware
+SOC_SOFTWARE_DIR ?= $(OUT_DIR)/software
 
 ifdef USE_OXIDE
 LITEX_ARGS += --toolchain oxide --yosys-abc9
@@ -55,7 +60,7 @@ endif
 
 ifdef USE_SYMBIFLOW
 LITEX_ARGS += --toolchain symbiflow
-else 
+else
 ifdef USE_VIVADO
 LITEX_ARGS += --toolchain vivado
 endif
@@ -77,7 +82,7 @@ BIOS_BIN  ?= $(SOC_SOFTWARE_DIR)/bios/bios.bin
 # BITSTREAM := $(OUT_DIR)/gateware/$(TARGET).bit
 BITSTREAM    ?= $(SOC_GATEWARE_DIR)/$(TARGET).bit
 
-.PHONY: bitstream litex-software load_hook prog clean check-timing
+.PHONY: bitstream litex-software load_hook prog prog-only clean check-timing
 
 bitstream: $(BITSTREAM) check-timing
 
@@ -103,6 +108,11 @@ load_hook:
 
 prog: $(BITSTREAM) check-timing
 	@echo Loading bitstream onto board
+	$(TARGET_RUN) --no-compile-software --load
+
+prog-only:
+	@echo Loading bitstream onto board
+	@test -f "$(BITSTREAM)" || { echo "Missing bitstream: $(BITSTREAM)"; exit 1; }
 	$(TARGET_RUN) --no-compile-software --load
 
 clean:

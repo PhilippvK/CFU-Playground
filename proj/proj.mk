@@ -78,6 +78,7 @@ CSR_JSON         ?= $(SOC_BUILD_DIR)/csr.json
 SOC_SOFTWARE_DIR ?= $(SOC_BUILD_DIR)/software
 export SOC_SOFTWARE_DIR
 SOC_GATEWARE_DIR ?= $(SOC_BUILD_DIR)/gateware
+export SOC_GATEWARE_DIR
 
 # Make software build dependent on platform
 export DEFINES    += PLATFORM_$(PLATFORM)
@@ -324,6 +325,9 @@ ifneq 'sim' '$(PLATFORM)'
 # $(PLATFORM) == 'common_soc' or 'hps'
 prog: $(CFU_VERILOG)
 	$(SOC_MK) prog
+
+prog-only: $(CFU_VERILOG)
+	$(SOC_MK) prog-only
 
 bitstream: $(CFU_VERILOG)
 	$(SOC_MK) bitstream
