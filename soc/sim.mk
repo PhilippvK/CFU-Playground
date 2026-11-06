@@ -71,4 +71,4 @@ $(CFU_V):
 # we don't actually use the BIOS, but we do use all the other bits
 # that are build along with it
 $(BIOS_BIN): $(CFU_V)
-	$(SIM_RUN) 
+	$(SIM_RUN)

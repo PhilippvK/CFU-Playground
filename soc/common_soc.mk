@@ -82,11 +82,21 @@ BIOS_BIN  ?= $(SOC_SOFTWARE_DIR)/bios/bios.bin
 # BITSTREAM := $(OUT_DIR)/gateware/$(TARGET).bit
 BITSTREAM    ?= $(SOC_GATEWARE_DIR)/$(TARGET).bit
 
+$(warning SOC_SOFTWARE_DIR is $(SOC_SOFTWARE_DIR))
+$(warning BIOS_BIN is $(BIOS_BIN))
+$(warning BITSTREAM is $(BITSTREAM))
+
 .PHONY: bitstream litex-software load_hook prog prog-only clean check-timing
 
 bitstream: $(BITSTREAM) check-timing
 
-litex-software: $(BIOS_BIN)
+
+foo:
+	echo SOC_SOFTWARE_DIR is $(SOC_SOFTWARE_DIR)
+	echo BIOS_BIN is $(BIOS_BIN)
+	echo BITSTREAM is $(BITSTREAM)
+
+litex-software: $(BIOS_BIN) foo
 
 ifdef USE_VIVADO
 ifndef IGNORE_TIMING
