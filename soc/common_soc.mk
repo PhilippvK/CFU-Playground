@@ -110,10 +110,24 @@ prog: $(BITSTREAM) check-timing
 	@echo Loading bitstream onto board
 	$(TARGET_RUN) --no-compile-software --load
 
+PROG_RETRIES ?= 3
+PROG_RETRY_DELAY ?= 2
+
 prog-only:
 	@echo Loading bitstream onto board
 	@test -f "$(BITSTREAM)" || { echo "Missing bitstream: $(BITSTREAM)"; exit 1; }
-	$(TARGET_RUN) --no-compile-software --load
+	@for attempt in $$(seq 1 $(PROG_RETRIES)); do \
+		echo "Programming attempt $$attempt/$(PROG_RETRIES)"; \
+		if $(TARGET_RUN) --no-compile-software --load; then \
+			exit 0; \
+		fi; \
+		if [ "$$attempt" -lt "$(PROG_RETRIES)" ]; then \
+			echo "Programming failed; retrying in $(PROG_RETRY_DELAY)s..."; \
+			sleep $(PROG_RETRY_DELAY); \
+		fi; \
+	done; \
+	echo "Programming failed after $(PROG_RETRIES) attempts."; \
+	exit 1
 
 clean:
 	@echo Removing $(OUT_DIR)
