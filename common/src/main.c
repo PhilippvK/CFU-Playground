@@ -32,7 +32,7 @@
 #include "proj_menu.h"
 #include "spiflash.h"
 #include "tflite_unit_tests.h"
-#include "third_party/embench_iot_v1/embench.h"
+// #include "third_party/embench_iot_v1/embench.h"
 #ifndef SKIP_TFLM
 #include "models/models.h"
 #endif
@@ -63,7 +63,7 @@ static struct Menu MENU = {
 #endif
         MENU_ITEM('6', "Benchmarks", do_benchmarks_menu),
         MENU_ITEM('7', "Util Tests", do_util_tests_menu),
-        MENU_ITEM('8', "Embench IoT", embench_menu),
+        // MENU_ITEM('8', "Embench IoT", embench_menu),
 #ifdef DONUT_DEMO
         MENU_ITEM('d', "Donut demo", donut),
 #endif
