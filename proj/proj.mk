@@ -107,7 +107,8 @@ MKDIR := /bin/mkdir
 #
 
 LXTERM       := $(SOC_DIR)/bin/litex_term
-BITSTREAM    := $(SOC_GATEWARE_DIR)/$(PLATFORM).bit
+BITSTREAM    ?= $(SOC_GATEWARE_DIR)/$(PLATFORM).bit
+export BITSTREAM
 
 PROJ_DIR        := $(realpath .)
 CFU_GEN         := $(PROJ_DIR)/cfu_gen.py
